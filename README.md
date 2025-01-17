@@ -47,7 +47,7 @@
 - `reference_data.json` – база справочных данных.  
 - `intents.json` – конфигурация чат-бота.  
 - `process_query.py` – алгоритм обработки запросов.  
-- `chatbot.py` – реализация диалоговой системы.  
+- `dialog_system.py` – реализация диалоговой системы.  
 
 ####  Используемые технологии  
 - **Python** (Gensim, NumPy, PyPDF2, FuzzyWuzzy)  
