@@ -1,0 +1,14 @@
+{
+    "intents": [
+        {
+            "tag": "diabetes",
+            "patterns": ["What is diabetes?", "Tell me about diabetes", "Explain diabetes", "What are symptoms of diabetes?"],
+            "responses": ["Diabetes is a condition that impairs glucose processing.", "Diabetes affects how your body turns food into energy."]
+        },
+        {
+            "tag": "autoencoders",
+            "patterns": ["What are autoencoders?", "Tell me about autoencoders", "Explain autoencoders", "How do autoencoders work?"],
+            "responses": ["Autoencoders are neural networks used for data compression and reconstruction.", "An autoencoder is a type of neural network that learns efficient codings of data.", "Autoencoders are widely used for anomaly detection and dimensionality reduction."]
+        }
+    ]
+}
