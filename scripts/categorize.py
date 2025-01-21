@@ -17,6 +17,13 @@ def extract_text_from_pdf(pdf_path):
         print(f"Ошибка при обработке файла {pdf_path}: {e}")
         return ""
 
+def normalize_vector(vector):
+    """
+    Нормализует вектор (приводит к единичной длине).
+    """
+    norm = np.linalg.norm(vector)
+    return vector / norm if norm > 0 else vector
+
 def categorize_text(text, model):
     """
     Категоризация текста с использованием Word2Vec.
@@ -28,6 +35,7 @@ def categorize_text(text, model):
         return None, words  # Вернуть пустой вектор, если нет известных слов
 
     avg_vector = np.mean(vectors, axis=0)
+    avg_vector = normalize_vector(avg_vector)
     missing_words = [word for word in words if word not in model.wv]
     return avg_vector, missing_words
 
@@ -54,16 +62,17 @@ def process_dataset(dataset_path, model_path):
 
 def categorize_and_sort(vectors):
     """
-    Сортирует тексты на две категории по значениям векторов.
+    Сортирует тексты на две категории по значениям нормализованных векторов.
     """
-    sorted_vectors = sorted(vectors.items(), key=lambda x: np.linalg.norm(x[1]))
+    normalized_vectors = {file: normalize_vector(vec) for file, vec in vectors.items()}
+    sorted_vectors = sorted(normalized_vectors.items(), key=lambda x: np.linalg.norm(x[1]))
     midpoint = len(sorted_vectors) // 2
 
     category_1 = sorted_vectors[:midpoint]
     category_2 = sorted_vectors[midpoint:]
 
-    avg_category_1 = np.mean([vec for _, vec in category_1], axis=0)
-    avg_category_2 = np.mean([vec for _, vec in category_2], axis=0)
+    avg_category_1 = normalize_vector(np.mean([vec for _, vec in category_1], axis=0))
+    avg_category_2 = normalize_vector(np.mean([vec for _, vec in category_2], axis=0))
 
     return category_1, category_2, avg_category_1, avg_category_2
 
